@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor Signup</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #6dd5ed, #2193b0);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .signup-container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);
+        width: 500px;
+        max-height: 95vh;
+        overflow-y: auto;
+        margin-top: 100px;
+      }
+
+      .signup-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #444;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .form-group input[type="file"] {
+        padding: 4px;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        background: #2193b0;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .btn:hover {
+        background: #17667a;
+      }
+
+      .error {
+        color: red;
+        font-size: 13px;
+        margin-top: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <h2>Doctor Signup</h2>
+      <form id="signupForm" method="POST" enctype="multipart/form-data">
+        <!-- Important Credentials -->
+        <div class="form-group">
+          <label>First Name *</label>
+          <input type="text" name="first_name" id="firstName" required />
+          <div class="error" id="firstNameError"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Last Name *</label>
+          <input type="text" name="last_name" id="lastName" required />
+          <div class="error" id="lastNameError"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" name="email" id="email" required />
+          <div class="error" id="emailError"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Password *</label>
+          <input type="password" name="password" id="password" required />
+          <div class="error" id="passwordError"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="text" name="phone" id="phone" required />
+          <div class="error" id="phoneError"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Specialty *</label>
+          <input
+            type="text"
+            name="specialty"
+            value="Speech Pathologist"
+            readonly
+          />
+        </div>
+
+        <div class="form-group">
+          <label>PMDC License Number *</label>
+          <input
+            type="text"
+            name="pmdc_license_number"
+            id="pmdcLicense"
+            required
+          />
+          <div class="error" id="licenseError"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Upload PMDC Certificate (PDF/JPG/PNG) *</label>
+          <input
+            type="file"
+            name="license_document"
+            id="licenseDoc"
+            accept=".pdf,.jpg,.png"
+            required
+          />
+          <div class="error" id="fileError"></div>
+        </div>
+
+        <!-- Optional Credentials -->
+        <div class="form-group">
+          <label>Upload Degree Certificate (optional)</label>
+          <input
+            type="file"
+            name="degree_certificate"
+            accept=".pdf,.jpg,.png"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Upload Profile Photo (optional)</label>
+          <input type="file" name="profile_photo" accept="image/*" />
+        </div>
+
+        <div class="form-group">
+          <label>CNIC/Passport No. (optional)</label>
+          <input type="text" name="cnic_number" id="cnic" />
+        </div>
+
+        <div class="form-group">
+          <label>Clinic Address (optional)</label>
+          <textarea name="clinic_address"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Years of Experience (optional)</label>
+          <input
+            type="number"
+            name="experience_years"
+            id="experience"
+            min="0"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Short Bio (optional)</label>
+          <textarea
+            name="bio"
+            placeholder="Write about your expertise and work experience..."
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn">Sign Up</button>
+      </form>
+    </div>
+
+    <script>
+      const form = document.getElementById("signupForm");
+
+      form.addEventListener("submit", function (event) {
+        let valid = true;
+
+        // Name validation
+        const namePattern = /^[A-Za-z]+$/;
+        const firstName = document.getElementById("firstName");
+        const lastName = document.getElementById("lastName");
+        if (!namePattern.test(firstName.value)) {
+          document.getElementById("firstNameError").innerText =
+            "First name must contain only letters";
+          valid = false;
+        } else {
+          document.getElementById("firstNameError").innerText = "";
+        }
+        if (!namePattern.test(lastName.value)) {
+          document.getElementById("lastNameError").innerText =
+            "Last name must contain only letters";
+          valid = false;
+        } else {
+          document.getElementById("lastNameError").innerText = "";
+        }
+
+        // Email validation
+        const email = document.getElementById("email");
+        const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
+        if (!emailPattern.test(email.value)) {
+          document.getElementById("emailError").innerText =
+            "Invalid email format";
+          valid = false;
+        } else {
+          document.getElementById("emailError").innerText = "";
+        }
+
+        // Password validation
+        const password = document.getElementById("password");
+        const passwordPattern =
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$/;
+        if (!passwordPattern.test(password.value)) {
+          document.getElementById("passwordError").innerText =
+            "Password must be 8+ chars, include uppercase, lowercase, number & special char";
+          valid = false;
+        } else {
+          document.getElementById("passwordError").innerText = "";
+        }
+
+        // Phone validation
+        const phone = document.getElementById("phone");
+        const phonePattern = /^\+?\d{10,15}$/;
+        if (!phonePattern.test(phone.value)) {
+          document.getElementById("phoneError").innerText =
+            "Phone must be 10–15 digits, may include country code (e.g., +92)";
+          valid = false;
+        } else {
+          document.getElementById("phoneError").innerText = "";
+        }
+
+        // PMDC License validation (Format: PMDC-12345-A)
+        const license = document.getElementById("pmdcLicense");
+        const licensePattern = /^PMDC-\d{5}-[A-Z]$/;
+        if (!licensePattern.test(license.value)) {
+          document.getElementById("licenseError").innerText =
+            "License format must be: PMDC-12345-A";
+          valid = false;
+        } else {
+          document.getElementById("licenseError").innerText = "";
+        }
+
+        // File validation
+        const fileField = document.getElementById("licenseDoc");
+        const allowedExtensions = /(\.pdf|\.jpg|\.png)$/i;
+        if (!allowedExtensions.exec(fileField.value)) {
+          document.getElementById("fileError").innerText =
+            "Only PDF, JPG, PNG allowed";
+          valid = false;
+        } else {
+          document.getElementById("fileError").innerText = "";
+        }
+
+        // Experience validation (if filled)
+        const experience = document.getElementById("experience");
+        if (experience.value && experience.value < 0) {
+          alert("Experience cannot be negative");
+          valid = false;
+        }
+
+        if (!valid) {
+          event.preventDefault();
+        }
+      });
+    </script>
+  </body>
+</html>
